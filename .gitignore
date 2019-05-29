@@ -1,2 +1,4 @@
 certs
 logs
+acme.json
+.env

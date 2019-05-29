@@ -1,0 +1,40 @@
+debug = false
+
+logLevel = "DEBUG"
+defaultEntryPoints = ["https","http"]
+
+[api]
+  entryPoint = "traefik"
+  dashboard = true
+  address = ":8080"
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+    [entryPoints.http.redirect]
+    entryPoint = "https"
+  [entryPoints.https]
+  address = ":443"
+  [entryPoints.https.tls]
+
+[retry]
+
+[docker]
+endpoint = "unix:///var/run/docker.sock"
+domain = "example.com"                # Replace this with your domain.
+watch = true
+exposedByDefault = false
+
+[acme]
+email = "user@example.com"            # Required - change to valid email
+storage = "acme.json"                 # Required for cert storage
+entryPoint = "https"                  # Required
+acmeLogging=true
+onHostRule = true                     # Optional - Generate certs based on frontend rule "traefik.frontend.rule=Host:${HOSTNAME}
+
+[acme.httpChallenge]
+  entryPoint = "http"
+
+# [[acme.domains]]
+#   main = "example.com"
+#   sans = ["hostname.example.com"]
